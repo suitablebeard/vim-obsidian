@@ -84,7 +84,7 @@ export def OpenWikilink(): void
         return 
     endif
 
-    OpenNewFile(filename) 
+    OpenNewNote(filename) 
     return 
 enddef
 
@@ -137,7 +137,7 @@ def ExtractFilename(text: string): string
         ->split('|')[0]
 enddef
 
-def OpenNewFile(filename: string): void
+export def OpenNewNote(filename: string): void
     if !isdirectory(g:obsidian_newfile_dir)
         mkdir(g:obsidian_newfile_dir, 'p', 0o700)
     endif

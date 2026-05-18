@@ -8,10 +8,7 @@
     - (maybe not): auto complete when typing a tag
     - search for tags in file using `gr`: grepping for the tag and add references to quickfix list
 5. Take a look at Ale and CoC for handling autocompletion
-6. Add command for creating new notes in the vault
-    - currently, the only way to create a new note is by opening an empty link
-    - make the function to create note in vault and use it for empty links
-7. Feat to rename files and update all wikilinks
+6. Feat to rename files and update all wikilinks
 
 # After
 

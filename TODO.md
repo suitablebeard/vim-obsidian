@@ -2,13 +2,8 @@
 
 1. Get a LICENSE
 2. Create documentation and help tags
-3. Transition from to use `gf` to open wikilink
-    - something like this: <expr> isInWikilink() ? <cmd>openWikilink()<CR> : 'gf'
-4. Add tags feature
-    - (maybe not): auto complete when typing a tag
-    - search for tags in file using `gr`: grepping for the tag and add references to quickfix list
-5. Take a look at Ale and CoC for handling autocompletion
-6. Feat to rename files and update all wikilinks
+4. Take a look at Ale and CoC for handling autocompletion
+5. Feat to rename files and update all wikilinks
 
 # After
 
@@ -18,8 +13,13 @@
 # Maybe
 
 1. Maybe allow opening other filetypes inside wikilinks, though this would require to open them is other apps
-3. Feat to generate a table of contents
-4. Make file searching truly fuzzy and update results shown while typing
+2. Feat to generate a table of contents
+3. Transition from to use `gf` to open wikilink
+    - something like this: <expr> isInWikilink() ? <cmd>openWikilink()<CR> : 'gf'
+4. Add tags feature
+    - (maybe not): auto complete when typing a tag
+    - search for tags in file using `gr`: grepping for the tag and add references to quickfix list
+5. Make file searching truly fuzzy and update results shown while typing
     - this might not be needed with the since I have the 'completeopt' with the 'fuzzy' option
     - probably with ripgrep
     - take a look at 'completefunc' and 'complete-functions'

@@ -60,8 +60,8 @@ export def OpenWikilink(): void
         return
     endif
 
-    var filename = fnameescape(ExtractFilename(wikilink))
-    var files = globpath(g:obsidian_vault_dir, $'**/*{filename}*', 0, 1)
+    var [_, filename, headerLink,_, displayText] = ParseWikilink(wikilink)
+    var files = globpath(g:obsidian_vault_dir, $'**/*{fnameescape(filename)}*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
 
     var numOfFiles = len(files)
@@ -78,14 +78,14 @@ export def OpenWikilink(): void
         return
     endif
 
-    var singleFileMatchesFilename: bool = !empty(files) && fnameescape(fnamemodify(files[0], ':t:r')) ==# filename
+    var singleFileMatchesFilename: bool = !empty(files) && fnamemodify(files[0], ':t:r') ==# filename
     if numOfFiles == 1 && singleFileMatchesFilename
-        execute $'edit {files[0]}' 
-        return 
+        execute $'edit {files[0]}'
+        return
     endif
 
-    OpenNewNote(filename) 
-    return 
+    OpenNewNote(filename)
+    return
 enddef
 
 export def GetWikilinkUnderCursor(str: string, cursorPos: number): string
@@ -131,10 +131,8 @@ def GetDoubleBrackets(bracket: string, str: string, position: number): number
     return result
 enddef
 
-def ExtractFilename(text: string): string
-    return text
-        ->matchstr('\[\[\zs.\{-}\ze\]\]')
-        ->split('|')[0]
+def ParseWikilink(wikilink: string): list<string>
+    return wikilink->matchlist('\v\[\[([^#|]+)(#[^|]+)?(\|([^\]]+))?\]\]')[0 : 4]
 enddef
 
 export def OpenNewNote(filename: string): void
@@ -142,7 +140,7 @@ export def OpenNewNote(filename: string): void
         mkdir(g:obsidian_newfile_dir, 'p', 0o700)
     endif
 
-    var filePath: string = $'{g:obsidian_newfile_dir}/{filename}.md'
+    var filePath: string = $'{g:obsidian_newfile_dir}/{fnameescape(filename)}.md'
     echom $'edit {simplify(filePath)}'
     execute $'edit {simplify(filePath)}'
     return

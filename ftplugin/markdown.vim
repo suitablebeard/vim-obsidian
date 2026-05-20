@@ -1,7 +1,3 @@
-" obsidian: adds wikilinks to vim similiar to Obsidian's
-" Maintainer: suitablebeard
-" License:
-
 if !has('vim9script') ||  v:version < 900
     finish
 endif

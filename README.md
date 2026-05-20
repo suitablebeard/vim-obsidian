@@ -58,3 +58,7 @@ Install using your favorite package manager, or use Vim's built-in package suppo
 ```
  git clone https://github.com/suitablebeard/vim-obsidian ~/.vim/pack/plugins/start/vim-obsidian
 ```
+
+## License
+
+MPL 2.0

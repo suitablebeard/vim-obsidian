@@ -25,7 +25,7 @@ if !hasmapto('<Plug>ObsidianCreateWikilink')
 endif
 
 if !hasmapto('<Plug>ObsidianNewNote')
-    nmap <unique> <leader>on <Plug>ObsidianNewNote 
+    nmap <unique> <leader>on <Plug>ObsidianNewNote
 endif
 
 command! -nargs=0 -buffer ObsidianOpenWikilink obsidian#OpenWikilink()
@@ -35,6 +35,6 @@ command! -nargs=0 -buffer ObsidianInsertWikilink obsidian#InsertWikilink()
 
 nnoremap <buffer> <silent> <Plug>ObsidianOpenWikilink <scriptcmd>ObsidianOpenWikilink<CR>
 noremap <buffer> <silent> <Plug>ObsidianCreateWikilink <scriptcmd>ObsidianCreateWikilink<CR>
-noremap <buffer> <Plug>ObsidianNewNote :ObsidianNewNote 
+noremap <buffer> <Plug>ObsidianNewNote :ObsidianNewNote
 inoremap <buffer> <silent> [[ <scriptcmd>ObsidianInsertWikilink<CR>
 

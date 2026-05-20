@@ -6,24 +6,7 @@ export def InsertWikilink(): string
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
-
-    var completion_items = files->mapnew((_, file) => {
-        var filename = fnamemodify(file, ':t:r')
-        var fileextension = fnamemodify(file, ':e')
-        fileextension = fileextension != '' ? $'.{fileextension}' : ''
-        var parentDir = fnamemodify(file, ':h:t')
-        parentDir = (parentDir == '.' || parentDir == '') ? fnamemodify(getcwd(), ':t') : parentDir
-
-        var display_text = $"{parentDir}/{filename}{fileextension}"
-
-        var item = {
-        \   word: filename .. ']]',
-        \   abbr: $"{display_text}",
-        \ }
-
-        return item
-    })
-
+    var completion_items = files->mapnew((_, file) => CreateQuickfixFileItem(file))
     if !empty(completion_items)
         complete(col('.'), completion_items)
     endif
@@ -38,6 +21,23 @@ def InsertStartingBrackets(): void
     setline('.', new_line)
     var new_col = col_num + 2
     cursor(line('.'), new_col)
+enddef
+
+def CreateQuickfixFileItem(file: string): dict<string>
+    var filename: string = fnamemodify(file, ':t:r')
+    var fileextension: string = fnamemodify(file, ':e')
+    fileextension = fileextension != '' ? $'.{fileextension}' : ''
+    var parentDir: string = fnamemodify(file, ':h:t')
+    parentDir = (parentDir == '.' || parentDir == '') ? fnamemodify(getcwd(), ':t') : parentDir
+
+    var display_text: string = $"{parentDir}/{filename}{fileextension}"
+
+    var item: dict<string> = {
+    \   word: filename .. ']]',
+    \   abbr: $"{display_text}",
+    \ }
+
+    return item
 enddef
 
 export def CreateWikilink(): void

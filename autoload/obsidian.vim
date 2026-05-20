@@ -140,8 +140,11 @@ export def OpenNewNote(filename: string): void
         mkdir(g:obsidian_newfile_dir, 'p', 0o700)
     endif
 
-    var filePath: string = $'{g:obsidian_newfile_dir}/{fnameescape(filename)}.md'
-    echom $'edit {simplify(filePath)}'
+    var parsedFilename = filename
+        ->substitute('\.md$', '', '')
+        ->fnameescape()
+
+    var filePath: string = $'{g:obsidian_newfile_dir}/{parsedFilename}.md'
     execute $'edit {simplify(filePath)}'
     return
 enddef

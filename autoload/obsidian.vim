@@ -14,14 +14,14 @@ export def WikilinkCompletion()
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
-    var completion_items = files->mapnew((_, file) => CreateQuickfixFileItem(file))
+    var completion_items = files->mapnew((_, file) => CreateFileCompletionItem(file))
 
     if !empty(completion_items)
         complete(start_col, completion_items)
     endif
 enddef
 
-def CreateQuickfixFileItem(file: string): dict<string>
+def CreateFileCompletionItem(file: string): dict<string>
     var filename: string = fnamemodify(file, ':t:r')
     var fileextension: string = fnamemodify(file, ':e')
     fileextension = fileextension != '' ? $'.{fileextension}' : ''
@@ -31,9 +31,9 @@ def CreateQuickfixFileItem(file: string): dict<string>
     var display_text: string = $"{parentDir}/{filename}{fileextension}"
 
     var item: dict<string> = {
-    \   word: filename,
-    \   abbr: $"{display_text}",
-    \ }
+        word: filename,
+        abbr: $"{display_text}",
+    }
 
     return item
 enddef

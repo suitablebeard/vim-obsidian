@@ -1,6 +1,7 @@
 vim9script
 
 export def WikilinkCompletion()
+import autoload 'internal/backlinks.vim'
     var line_text = getline('.')
     var cursor_col = col('.') - 1
     var text_before_cursor = line_text->strpart(0, cursor_col)
@@ -145,4 +146,15 @@ export def OpenNewNote(filename: string): void
     var filePath: string = $'{g:obsidian_newfile_dir}/{parsedFilename}.md'
     execute $'edit {simplify(filePath)}'
     return
+enddef
+
+export def GetBacklinks()
+    var path: string = expand('%:p')
+
+    if executable('rg')
+        backlinks.BacklinksRg(path)
+        return
+    endif
+
+    backlinks.BacklinksVimgrep(path)
 enddef

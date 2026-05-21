@@ -22,6 +22,7 @@ endif
 
 command! -nargs=0 -buffer ObsidianOpenWikilink obsidian#OpenWikilink()
 command! -nargs=0 -buffer ObsidianCreateWikilink obsidian#CreateWikilink()
+command! -nargs=0 -buffer ObsidianBacklinks obsidian#GetBacklinks()
 
 nnoremap <buffer> <silent> <Plug>ObsidianOpenWikilink <scriptcmd>ObsidianOpenWikilink<CR>
 noremap <buffer> <silent> <Plug>ObsidianCreateWikilink <scriptcmd>ObsidianCreateWikilink<CR>

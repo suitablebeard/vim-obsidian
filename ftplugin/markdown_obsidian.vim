@@ -29,5 +29,5 @@ noremap <buffer> <silent> <Plug>ObsidianCreateWikilink <scriptcmd>ObsidianCreate
 
 augroup ObsidianWikilinkCompletion
     autocmd!
-    autocmd TextChangedI *.md obsidian#WikilinkCompletion()
+    autocmd TextChangedI *.md obsidian#ObsidianAutocompleter()
 augroup END

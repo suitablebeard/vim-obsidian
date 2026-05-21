@@ -1,24 +1,32 @@
 vim9script
 
-export def WikilinkCompletion()
+import autoload 'internal/tags.vim'
 import autoload 'internal/backlinks.vim'
+
+export def ObsidianAutocompleter()
     var line_text = getline('.')
     var cursor_col = col('.') - 1
     var text_before_cursor = line_text->strpart(0, cursor_col)
 
-    if text_before_cursor !~ '\[\[$'
+    if text_before_cursor =~ '\[\[$'
+        WikilinkCompletion(cursor_col)
         return
     endif
 
-    var start_col = cursor_col + 1
+    if text_before_cursor =~ '#$'
+        TagCompletion(cursor_col)
+        return
+    endif
+enddef
 
+def WikilinkCompletion(cursor_col: number)
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
     var completion_items = files->mapnew((_, file) => CreateFileCompletionItem(file))
 
     if !empty(completion_items)
-        complete(start_col, completion_items)
+        complete(cursor_col + 1, completion_items)
     endif
 enddef
 
@@ -37,6 +45,12 @@ def CreateFileCompletionItem(file: string): dict<string>
     }
 
     return item
+enddef
+
+def TagCompletion(cursor_col: number)
+    # Get all tags
+    var all_tags = tags.GetAllTags()
+    # Send tags to autocomplete
 enddef
 
 export def CreateWikilink(): void

@@ -59,7 +59,7 @@ export def OpenWikilink(): void
     endif
 
     var [_, filename, headerLink,_, displayText] = ParseWikilink(wikilink)
-    var files = globpath(g:obsidian_vault_dir, $'**/*{fnameescape(filename)}*', 0, 1)
+    var files = globpath(g:obsidian_vault_dir, $'**/{fnameescape(filename)}', 0, 1)
         ->filter((_, path) => !isdirectory(path))
 
     var numOfFiles = len(files)

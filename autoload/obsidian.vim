@@ -1,26 +1,24 @@
 vim9script
 
-export def InsertWikilink(): string
-    InsertStartingBrackets()
+export def WikilinkCompletion()
+    var line_text = getline('.')
+    var cursor_col = col('.') - 1
+    var text_before_cursor = line_text->strpart(0, cursor_col)
+
+    if text_before_cursor !~ '\[\[$'
+        return
+    endif
+
+    var start_col = cursor_col + 1
 
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
     var completion_items = files->mapnew((_, file) => CreateQuickfixFileItem(file))
+
     if !empty(completion_items)
-        complete(col('.'), completion_items)
+        complete(start_col, completion_items)
     endif
-
-    return ''
-enddef
-
-def InsertStartingBrackets(): void
-    var line = getline('.')
-    var col_num = col('.')
-    var new_line = line->strpart(0, col_num - 1) .. "[[" .. line->strpart(col_num - 1)
-    setline('.', new_line)
-    var new_col = col_num + 2
-    cursor(line('.'), new_col)
 enddef
 
 def CreateQuickfixFileItem(file: string): dict<string>
@@ -33,7 +31,7 @@ def CreateQuickfixFileItem(file: string): dict<string>
     var display_text: string = $"{parentDir}/{filename}{fileextension}"
 
     var item: dict<string> = {
-    \   word: filename .. ']]',
+    \   word: filename,
     \   abbr: $"{display_text}",
     \ }
 

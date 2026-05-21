@@ -17,14 +17,16 @@ if !hasmapto('<Plug>ObsidianOpenWikilink')
 endif
 
 if !hasmapto('<Plug>ObsidianCreateWikilink')
-    vmap <unique> <leader>os <Plug>ObsidianCreateWikilink
+    vmap <unique> <buffer> <leader>os <Plug>ObsidianCreateWikilink
 endif
 
 command! -nargs=0 -buffer ObsidianOpenWikilink obsidian#OpenWikilink()
 command! -nargs=0 -buffer ObsidianCreateWikilink obsidian#CreateWikilink()
-command! -nargs=0 -buffer ObsidianInsertWikilink obsidian#InsertWikilink()
 
 nnoremap <buffer> <silent> <Plug>ObsidianOpenWikilink <scriptcmd>ObsidianOpenWikilink<CR>
 noremap <buffer> <silent> <Plug>ObsidianCreateWikilink <scriptcmd>ObsidianCreateWikilink<CR>
-inoremap <buffer> <silent> [[ <scriptcmd>ObsidianInsertWikilink<CR>
 
+augroup ObsidianWikilinkCompletion
+    autocmd!
+    autocmd TextChangedI *.md obsidian#WikilinkCompletion()
+augroup END

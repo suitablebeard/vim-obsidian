@@ -55,7 +55,7 @@ def TagCompletion(cursor_col: number)
     return
 enddef
 
-export def CreateWikilink(): void
+export def SurroundWithBrackets(): void
     # This function was written by Gemini
     var save_z = getreg('z')
     var save_z_type = getregtype('z')
@@ -66,7 +66,7 @@ export def CreateWikilink(): void
     setreg('z', save_z, save_z_type)
 enddef
 
-export def OpenWikilink(): void
+export def FollowWikilink(): void
     var currentLine = getline('.')
     var cursorPos = col('.') - 1
     var wikilink: string = GetWikilinkUnderCursor(currentLine, cursorPos)
@@ -164,7 +164,7 @@ export def OpenNewNote(filename: string): void
     return
 enddef
 
-export def GetBacklinks()
+export def ViewBacklinks()
     var path: string = expand('%:p')
     var filename = fnamemodify(path, ':t:r')
 

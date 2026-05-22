@@ -166,11 +166,61 @@ enddef
 
 export def GetBacklinks()
     var path: string = expand('%:p')
+    var filename = fnamemodify(path, ':t:r')
 
-    if executable('rg')
-        backlinks.BacklinksRg(path)
+    if !executable('rg')
+        backlinks.BacklinksVimgrep(path)
         return
     endif
 
-    backlinks.BacklinksVimgrep(path)
+    var files: list<any> = backlinks.BacklinksRg(path)
+    if empty(files)
+        echo 'No backlinks for: ' .. filename
+        return
+    endif
+
+    setqflist([], 'r', {
+        title: 'Backlinks: ' .. filename,
+        lines: files,
+        efm: '%f:%l:%c:%m'
+    })
+
+    copen
+
+    return
+enddef
+
+export def RenameNote()
+    if !executable('rg')
+        echoerr 'Renaming: you need ripgrep for this'
+        return
+    endif
+
+    var old_path = expand('%:p')
+    if empty(old_path)
+        echoerr 'Vim-Obsidian: no note selected'
+        return
+    endif
+
+    var old_name = fnamemodify(old_path, ':t:r')
+    var new_name = input('New note name: ', old_name)
+
+    if empty(new_name) || new_name == old_name
+        echom 'You need to provide a new name'
+        return
+    endif
+
+    var parent_dir = fnamemodify(old_path, ':h')
+    var new_path = $'{parent_dir}/{new_name}.md'
+    rename(old_path, new_path)
+
+    execute 'file ' .. fnameescape(new_path)
+
+    backlinks.UpdateBacklinks(old_path, old_name, new_name)
+
+    execute 'silent edit ' .. fnameescape(new_path)
+
+    echo $'Renamed "{old_name}" -> "{new_name}"'
+
+    return
 enddef

@@ -2,6 +2,11 @@ vim9script
 
 import autoload 'internal/tags.vim'
 import autoload 'internal/backlinks.vim'
+import autoload 'internal/mappings.vim'
+
+export def Setup()
+    mappings.SetupMappings()
+enddef
 
 export def ObsidianAutocompleter()
     var line_text = getline('.')

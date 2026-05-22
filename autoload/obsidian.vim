@@ -48,9 +48,11 @@ def CreateFileCompletionItem(file: string): dict<string>
 enddef
 
 def TagCompletion(cursor_col: number)
-    # Get all tags
+    # 1. Get all tags
     var all_tags = tags.GetAllTags()
-    # Send tags to autocomplete
+
+    # 2. Send tags to autocomplete
+    return
 enddef
 
 export def CreateWikilink(): void

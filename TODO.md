@@ -1,9 +1,7 @@
 # TODO
 
-1. Get a LICENSE
-2. Create documentation and help tags
-4. Take a look at Ale and CoC for handling autocompletion
-5. Feat to rename files and update all wikilinks
+1. Create documentation and help tags
+2. Take a look at Ale and CoC for handling autocompletion
 
 # After
 

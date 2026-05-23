@@ -20,6 +20,7 @@ For a better experience, set these options in your `.vimrc`:
 syntax on                              " for hightlighting wikilinks and tags
 filetype plugin indent on              " ensures the plugin loads in .md files
 set completeopt+=fuzzy                 " Vim's built-in fuzzy autocompletion
+set pumheight=10                       " sets maximum height for autocomplete popup
 ```
 
 ## Commands

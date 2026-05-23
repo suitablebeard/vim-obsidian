@@ -18,7 +18,7 @@ export def ObsidianAutocompleter()
         return
     endif
 
-    if text_before_cursor =~ '#$'
+    if text_before_cursor =~ '\(^\|\s\)#$'
         TagCompletion(cursor_col)
         return
     endif

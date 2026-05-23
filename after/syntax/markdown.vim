@@ -12,7 +12,7 @@ syntax match WikiLinkOpen /\[\[/ contained
 syntax match WikiLinkClose /\]\]/ contained
 syntax match WikiLinkText /[^[\]]\+/ contained
 
-syntax match Tag /#[a-zA-Z0-9_/-]\+/
+syntax match Tag /\(^\|\s\)\zs#[a-zA-Z0-9_/-]\+/
 
 highlight default link WikiLinkOpen Comment
 highlight default link WikiLinkClose Comment

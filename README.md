@@ -1,55 +1,65 @@
 # vim-obsidian
 
-A plugin that connects your Obsidian vault with Vim. Lightweight Markdown note-taking with support for wikilinks.
+A plugin that connects your Obsidian vault with Vim. Lightweight Markdown note-taking with native support for wikilinks, and backlinks.
+
+## Features
+
+- Wikilinks: autocompletion and following them;
+- Backlinks:
+    - view backlinks for current note;
+    - rename current note and update backlinks.
 
 ## Usage
 
 > [!warning]
 > To use this plugin make sure you are in a markdown file.
 
-### Creating a `[[wikilink]]`
-
-There are three ways to create a wikilink:
-
-1. surrounding text with double brackets with the command `:ObsidianCreateWikilink` or with a mapping;
-2. typing `[[` and linking to an existing note in your vault from a completion menu;
-3. typing the wikilink verbatim.
-
-Regarding the completion menu, it is recommended to turn on Vim's built-in fuzzy autocompletion for a better experience with:
+For a better experience, set these optiosn in your `.vimrc`:
 
 ```vimscript
-set completeopt+=fuzzy
+syntax on                              " for hightlighting wikilinks and tags
+filetype plugin indent on              " ensures the plugin loads in .md files
+set completeopt+=fuzzy                 " Vim's built-in fuzzy autocompletion
 ```
+## Commands
 
-### Opening a `[[wikilink]]`
+| Command                         | Description                                                                                    | Default Mapping |
+|:--------------------------------|:-----------------------------------------------------------------------------------------------|:---------------:|
+| `:ObsidianFollowWikilink`       | - follows the wikilink under the cursor<br>- following an "unresolved links creates a new note |        gd       |
+| `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]                                           |   \<leader\>os  |
+| `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir`                                       |   \<leader\>on  |
+| `:ObsidianBacklinks`            | shows all backlinks for the file in the current buffer                                         |   \<leader\>ob  |
+| `:ObsidianRenameNote`           | renames the current note and updates all backlinks                                             |   \<leader\>or  |
 
-To open a wikilink under your cursor, you can use either the command `:ObsidianOpenWikilink` or a mapping.
-
-If, however, the wikilink your trying to open is an "unresolved link", a new markdown file will be created in a subdirectory in your vault.
-
-## Requirements
-
-- Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);
-- No other dependancies needed since the plugin uses Vim's built-in `find`.
+To change these mappings, see next section.
 
 ## Configuration
 
 You can change the following options as you see fit and add them to your `.vimrc`.
 
+| Option                    | Description                                       | Default Value                                 |
+| :------------------------ | :---------------------------------------          | :-------------------------------------------- |
+| `g:obsidian_vault_dir`    | directory for your vault (full path)              | the current directory (see :pwd)              |
+| `g:obsidian_newfile_dir`  | directory where new notes are created (full path) | `g:obsidian_vault_dir`/new_notes              |
+| `g:obsidian_mappings`     | dictionary with mappings used                     | (see bellow)                                  |
+
+These are the options for `g:obsidian_mappings` with their default value:
+
 ```vimscript
-" directory where this plugin searches for files. Default: '.' (the current directory, See :pwd)
-let g:obsidian_vault_dir = '/vault/dir/'
-
-" directory where new files are created. Default: '{vault_dir}/new_notes'
-" NOTE: this needs to be the full path
-let g:obsidian_newfile_dir = '/new_notes/dir/'
-
-" mapping to open wikilink under the cursor. Default: gd
-nmap <your_keys> <Plug>ObsidianOpenWikilink
-
-" mapping to surround selected text with double brackets. Default: [[
-vmap <your_keys> <Plug>ObsidianCreateWikilink
+let g:obsidian_mappings = {
+    follow_wikilink:     'gd',
+    surround_brackets:   '<leader>os',
+    new_note:            '<leader>on',
+    view_backlinks:      '<leader>ob',
+    rename_note:         '<leader>or',
+}
 ```
+
+## Requirements
+
+- Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);
+- [ripgrep](https://github.com/burntsushi/ripgrep)
+    - except for `:ObsidianRenameNote`, Vim's built-in `find` is used therefore ripgrep can be discarded for everything else.
 
 ## Installation
 

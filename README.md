@@ -63,12 +63,12 @@ This plugin defines default color mappings for wiki links and tags. If you want 
 
 Here are the available highlight groups:
 
-| Highlight Group | Description                          | Default                |
-|:----------------|:-------------------------------------|:-----------------------|
-| `WikiLinkOpen`  | The opening brackets [[              | linked to `Comment`    |
-| `WikiLinkClose` | The closing brackets ]]              | linked to `Comment`    |
-| `WikiLink`      | Text	The text inside the brackets | linked to `Statement`  |
-| `Tag`           | Hashtags (e.g., #my-tag)             | linked to `Identifier` |
+| Highlight Group | Description                  | Default                |
+|:----------------|:-----------------------------|:-----------------------|
+| `WikiLinkOpen`  | The opening brackets [[      | linked to `Comment`    |
+| `WikiLinkClose` | The closing brackets ]]      | linked to `Comment`    |
+| `WikiLinkText`  | The text inside the brackets | linked to `Statement`  |
+| `Tag`           | Hashtags (e.g., #my-tag)     | linked to `Identifier` |
 
 To change it, you can either link it to a different group:
 

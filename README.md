@@ -14,13 +14,14 @@ A plugin that connects your Obsidian vault with Vim. Lightweight Markdown note-t
 > [!warning]
 > To use this plugin make sure you are in a markdown file.
 
-For a better experience, set these optiosn in your `.vimrc`:
+For a better experience, set these options in your `.vimrc`:
 
 ```vimscript
 syntax on                              " for hightlighting wikilinks and tags
 filetype plugin indent on              " ensures the plugin loads in .md files
 set completeopt+=fuzzy                 " Vim's built-in fuzzy autocompletion
 ```
+
 ## Commands
 
 | Command                         | Description                                                                                                                 | Default Mapping |
@@ -28,7 +29,7 @@ set completeopt+=fuzzy                 " Vim's built-in fuzzy autocompletion
 | `:ObsidianFollowWikilink`       | - follows the wikilink under the cursor<br>- following an "unresolved links" creates a new note in `g:obsidian_newfile_dir` |        gd       |
 | `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]                                                                        |   \<leader\>os  |
 | `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir`                                                                    |   \<leader\>on  |
-| `:ObsidianBacklinks`            | shows all backlinks for the file in the current buffer                                                                      |   \<leader\>ob  |
+| `:ObsidianBacklinks`            | shows all backlinks for the current note                                                                                    |   \<leader\>ob  |
 | `:ObsidianRenameNote`           | renames the current note and updates all backlinks                                                                          |   \<leader\>or  |
 
 To change these mappings, see next section.
@@ -59,7 +60,7 @@ let g:obsidian_mappings = {
 
 - Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);
 - [ripgrep](https://github.com/burntsushi/ripgrep)
-    - except for `:ObsidianRenameNote`, Vim's built-in `find` is used therefore ripgrep can be discarded for everything else.
+    - you can discard using ripgrep if you don't want to use `:ObsidianRenameNote` since we use Vim's built-in `find` for everything else.
 
 ## Installation
 

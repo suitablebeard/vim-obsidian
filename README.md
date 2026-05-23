@@ -23,13 +23,13 @@ set completeopt+=fuzzy                 " Vim's built-in fuzzy autocompletion
 ```
 ## Commands
 
-| Command                         | Description                                                                                    | Default Mapping |
-|:--------------------------------|:-----------------------------------------------------------------------------------------------|:---------------:|
-| `:ObsidianFollowWikilink`       | - follows the wikilink under the cursor<br>- following an "unresolved links creates a new note |        gd       |
-| `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]                                           |   \<leader\>os  |
-| `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir`                                       |   \<leader\>on  |
-| `:ObsidianBacklinks`            | shows all backlinks for the file in the current buffer                                         |   \<leader\>ob  |
-| `:ObsidianRenameNote`           | renames the current note and updates all backlinks                                             |   \<leader\>or  |
+| Command                         | Description                                                                                                                 | Default Mapping |
+|:--------------------------------|:----------------------------------------------------------------------------------------------------------------------------|:---------------:|
+| `:ObsidianFollowWikilink`       | - follows the wikilink under the cursor<br>- following an "unresolved links" creates a new note in `g:obsidian_newfile_dir` |        gd       |
+| `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]                                                                        |   \<leader\>os  |
+| `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir`                                                                    |   \<leader\>on  |
+| `:ObsidianBacklinks`            | shows all backlinks for the file in the current buffer                                                                      |   \<leader\>ob  |
+| `:ObsidianRenameNote`           | renames the current note and updates all backlinks                                                                          |   \<leader\>or  |
 
 To change these mappings, see next section.
 

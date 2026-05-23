@@ -57,6 +57,39 @@ let g:obsidian_mappings = {
 }
 ```
 
+## Customization
+
+This plugin defines default color mappings for wiki links and tags. If you want to change them to match your favorite color scheme, you can override the highlight groups in your vimrc.
+
+Here are the available highlight groups:
+
+| Highlight Group | Description                          | Default                |
+|:----------------|:-------------------------------------|:-----------------------|
+| `WikiLinkOpen`  | The opening brackets [[              | linked to `Comment`    |
+| `WikiLinkClose` | The closing brackets ]]              | linked to `Comment`    |
+| `WikiLink`      | Text	The text inside the brackets | linked to `Statement`  |
+| `Tag`           | Hashtags (e.g., #my-tag)             | linked to `Identifier` |
+
+To change it, you can either link it to a different group:
+
+```vimscript
+highlight link WikiLinkText Underlined
+highlight link Tag Special
+```
+
+or define custom colors:
+
+```vimscript
+highlight WikiLinkText ctermfg=DarkCyan guifg=#008787
+highlight Tag cterm=bold ctermfg=Magenta gui=bold guifg=#ff00ff
+```
+
+## Suggested Plugins
+
+We recomend using alongside this plugin:
+- [auto-pairs](https://github.com/LunarWatcher/auto-pairs); and
+- any fuzzy finder plugin.
+
 ## Requirements
 
 - Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);

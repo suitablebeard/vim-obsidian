@@ -37,16 +37,21 @@ enddef
 
 def CreateFileCompletionItem(file: string): dict<string>
     var filename: string = fnamemodify(file, ':t:r')
+
     var fileextension: string = fnamemodify(file, ':e')
-    fileextension = fileextension != '' ? $'.{fileextension}' : ''
+    var hasNoExtension = fileextension == ''
+    var isMdFile = fileextension == 'md'
+    fileextension = (hasNoExtension || isMdFile) ? '' : $'.{fileextension}'
+
+    var display_text: string = $"{filename}{fileextension}"
+
     var parentDir: string = fnamemodify(file, ':h:t')
     parentDir = (parentDir == '.' || parentDir == '') ? fnamemodify(getcwd(), ':t') : parentDir
 
-    var display_text: string = $"{parentDir}/{filename}{fileextension}"
-
     var item: dict<string> = {
         word: filename,
-        abbr: $"{display_text}",
+        abbr: display_text,
+        menu: parentDir,
     }
 
     return item

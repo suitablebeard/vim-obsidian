@@ -62,7 +62,7 @@ def CreateFileCompletionItem(file: string): dict<string>
 enddef
 
 def CreateLinkCompletionItem(link: string): dict<string>
-    return { word: link }
+    return { word: link, menu: '[UNRESOLVED]'}
 enddef
 
 def TagCompletion(cursor_col: number)

@@ -115,7 +115,6 @@ export def GetUnresolvedLinks(): list<any>
 enddef
 
 export def GetAllBacklinksRg(): list<string>
-    echom g:obsidian_vault_dir
     var cmd = [
         'rg',
         '--no-filename',

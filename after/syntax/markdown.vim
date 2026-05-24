@@ -6,7 +6,7 @@
 
 vim9script
 
-syntax region WikiLink start=/\[\[/ end=/\]\]/ contains=WikiLinkOpen,WikiLinkClose,WikiLinkText keepend
+syntax region WikiLink start=/\[\[/ end=/\]\]/ contains=WikiLinkOpen,WikiLinkClose,WikiLinkText keepend oneline
 
 syntax match WikiLinkOpen /\[\[/ contained
 syntax match WikiLinkClose /\]\]/ contained

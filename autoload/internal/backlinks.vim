@@ -104,14 +104,14 @@ export def GetUnresolvedLinks(): list<any>
     
     var all_backlinks = GetAllBacklinksRg()
 
-    var unresolved = []
+    var unresolved = {}
     for link in all_backlinks
-        if !empty(link) && !has_key(note_dict, link)
-            unresolved->add(link)
+        if !empty(link) && !has_key(note_dict, link) && !has_key(unresolved, link)
+            unresolved[link] = 1
         endif
     endfor
 
-    return unresolved
+    return keys(unresolved)
 enddef
 
 export def GetAllBacklinksRg(): list<string>

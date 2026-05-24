@@ -14,7 +14,7 @@ import autoload '../autoload/obsidian.vim'
 # Commands available only in markdown files
 command! -nargs=0 -buffer ObsidianFollowWikilink obsidian#FollowWikilink()
 command! -nargs=0 -buffer ObsidianSurroundWithBrackets obsidian#SurroundWithBrackets()
-command! -nargs=0 -buffer ObsidianBacklinks obsidian#GetBacklinks()
+command! -nargs=0 -buffer ObsidianBacklinks obsidian#ViewBacklinks()
 command! -nargs=0 -buffer ObsidianRenameNote obsidian#RenameNote()
 
 augroup ObsidianWikilinkCompletion

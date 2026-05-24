@@ -94,14 +94,14 @@ export def UpdateBacklinks(old_path: string, old_name: string, new_name: string)
 enddef
 
 export def GetUnresolvedLinks(): list<any>
-    var notes = systemlist(['rg', '--files', shellescape(g:obsidian_vault_dir)])
+    var notes = systemlist(['rg', '--files', g:obsidian_vault_dir])
         ->mapnew((_, path) => fnamemodify(path, ':t:r'))
 
     var note_dict = {}
     for note in notes
         note_dict[note] = 1
     endfor
-    
+
     var all_backlinks = GetAllBacklinksRg()
 
     var unresolved = {}

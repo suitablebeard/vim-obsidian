@@ -71,7 +71,7 @@ export def UpdateBacklinks(old_path: string, old_name: string, new_name: string)
 
     if empty(files)
         echo 'No backlinks to update'
-        return 
+        return
     endif
 
     var search = '\(\[\[\)'
@@ -91,4 +91,46 @@ export def UpdateBacklinks(old_path: string, old_name: string, new_name: string)
     endfor
 
     return
+enddef
+
+export def GetUnresolvedLinks(): list<any>
+    var notes = systemlist(['rg', '--files', shellescape(g:obsidian_vault_dir)])
+        ->mapnew((_, path) => fnamemodify(path, ':t:r'))
+
+    var note_dict = {}
+    for note in notes
+        note_dict[note] = 1
+    endfor
+    
+    var all_backlinks = GetAllBacklinksRg()
+
+    var unresolved = []
+    for link in all_backlinks
+        if !empty(link) && !has_key(note_dict, link)
+            unresolved->add(link)
+        endif
+    endfor
+
+    return unresolved
+enddef
+
+export def GetAllBacklinksRg(): list<string>
+    echom g:obsidian_vault_dir
+    var cmd = [
+        'rg',
+        '--no-filename',
+        '--no-line-number',
+        '-o',
+        '--glob',
+        '*.md',
+        '--pcre2',
+        '(?<=\[\[)[^\]|#]+',
+        g:obsidian_vault_dir
+    ]
+
+    var result = systemlist(cmd)
+
+    if v:shell_error != 0 || empty(result) | return [] | endif
+
+    return result
 enddef

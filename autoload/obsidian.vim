@@ -28,7 +28,11 @@ def WikilinkCompletion(cursor_col: number)
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
-    var completion_items = files->mapnew((_, file) => CreateFileCompletionItem(file))
+    var unresolved_links = backlinks.GetUnresolvedLinks()
+
+    var file_items = files->mapnew((_, file) => CreateFileCompletionItem(file))
+    var link_items = unresolved_links->mapnew((_, link) => CreateLinkCompletionItem(link))
+    var completion_items = extendnew(file_items, link_items)
 
     if !empty(completion_items)
         complete(cursor_col + 1, completion_items)
@@ -55,6 +59,10 @@ def CreateFileCompletionItem(file: string): dict<string>
     }
 
     return item
+enddef
+
+def CreateLinkCompletionItem(link: string): dict<string>
+    return { word: link }
 enddef
 
 def TagCompletion(cursor_col: number)

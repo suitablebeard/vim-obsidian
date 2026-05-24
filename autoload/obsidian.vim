@@ -109,7 +109,7 @@ export def FollowWikilink(): void
         return
     endif
 
-    OpenNewNote(filename)
+    CreateNewNote(filename)
     return
 enddef
 
@@ -160,7 +160,7 @@ def ParseWikilink(wikilink: string): list<string>
     return wikilink->matchlist('\v\[\[([^#|]+)(#[^|]+)?(\|([^\]]+))?\]\]')[0 : 4]
 enddef
 
-export def OpenNewNote(filename: string): void
+export def CreateNewNote(filename: string): void
     if !isdirectory(g:obsidian_newfile_dir)
         mkdir(g:obsidian_newfile_dir, 'p', 0o700)
     endif

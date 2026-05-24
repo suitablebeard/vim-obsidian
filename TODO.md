@@ -13,7 +13,7 @@
 1. Maybe allow opening other filetypes inside wikilinks, though this would require to open them is other apps
 2. Feat to generate a table of contents
 3. Transition from to use `gf` to open wikilink
-    - something like this: <expr> isInWikilink() ? <cmd>openWikilink()<CR> : 'gf'
+    - something like this: <expr> isInWikilink() ? <cmd>FollowWikilink()<CR> : 'gf'
 4. Add tags feature
     - (maybe not): auto complete when typing a tag
     - search for tags in file using `gr`: grepping for the tag and add references to quickfix list

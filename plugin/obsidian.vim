@@ -18,6 +18,6 @@ g:obsidian_newfile_dir = utils.NormalizePath(get(g:, 'obsidian_newfile_dir', g:o
 g:obsidian_mappings = get(g:, 'obsidian_mappings', {})
 
 # Commands available for all filetypes
-command! -nargs=1 ObsidianNewNote obsidian#OpenNewNote('<args>')
+command! -nargs=1 ObsidianNewNote obsidian#CreateNewNote('<args>')
 
 obsidian.Setup()

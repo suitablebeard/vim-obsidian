@@ -6,14 +6,18 @@
 
 vim9script
 
+var is_cache_initialized = false
+
 export def CreateBacklinksIndex()
+    if is_cache_initialized | return | endif
+    is_cache_initialized = true
     var [ existing_notes, note_links, unresolved_links ] = SetupBacklinksIndex()
     var index = {
         note_links: note_links,
         unresolved_links: unresolved_links
     }
 
-    var index_path = g:obsidian_index 
+    var index_path = g:obsidian_index
     if !filereadable(index_path)
         var dir = fnamemodify(index_path, ':h')
         if !isdirectory(dir)
@@ -47,11 +51,6 @@ export def SetupBacklinksIndex(): list<dict<any>>
     endfor
 
     return [ existing_notes, note_links, unresolved_links ]
-enddef
-
-def GetAllNotes(path: string): list<string>
-    return systemlist(['rg', '--files', '--glob', '*.md', path])
-        ->mapnew((_, file) => fnamemodify(file, ':t:r'))
 enddef
 
 export def GetAllBacklinksRg(path: string): list<dict<any>>
@@ -91,8 +90,13 @@ export def GetAllBacklinksRg(path: string): list<dict<any>>
     return [ all_links, note_links ]
 enddef
 
+def GetAllNotes(path: string): list<string>
+    return systemlist(['rg', '--files', '--glob', '*.md', path])
+        ->mapnew((_, file) => fnamemodify(file, ':t:r'))
+enddef
+
 export def LoadBacklinksIndex(): dict<any>
-    var index_path = g:obsidian_index 
+    var index_path = g:obsidian_index
 
     if !filereadable(index_path) | return {} | endif
 

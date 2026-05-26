@@ -3,14 +3,14 @@ vim9script
 import autoload 'internal/tags.vim'
 import autoload 'internal/backlinks.vim'
 import autoload 'internal/mappings.vim'
-import autoload 'internal/indexer.vim'
+import autoload 'internal/cache.vim'
 
 export def Setup()
     mappings.SetupMappings()
 enddef
 
-export def LoadIndex()
-    indexer.CreateBacklinksIndex() 
+export def LoadCache()
+    cache.CreateBacklinksCache() 
 enddef
 
 export def ObsidianAutocompleter()
@@ -33,7 +33,7 @@ def WikilinkCompletion(cursor_col: number)
     # searches files using Vim's built-in 'find'
     var files = globpath(g:obsidian_vault_dir, '**/*', 0, 1)
         ->filter((_, path) => !isdirectory(path))
-    var unresolved_links = keys(indexer.LoadBacklinksIndex()['unresolved_links'])
+    var unresolved_links = keys(cache.LoadBacklinksCache()['unresolved_links'])
 
     var file_items = files->mapnew((_, file) => CreateFileCompletionItem(file))
     var link_items = unresolved_links->mapnew((_, link) => CreateLinkCompletionItem(link))

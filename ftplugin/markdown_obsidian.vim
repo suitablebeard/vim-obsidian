@@ -19,7 +19,7 @@ command! -nargs=0 -buffer ObsidianRenameNote obsidian#RenameNote()
 
 augroup ObsidianWikilinkFtpluginSetup
     autocmd!
-    autocmd VimEnter,BufEnter <buffer> obsidian#LoadIndex()
+    autocmd VimEnter,BufEnter <buffer> obsidian#LoadCache()
 
     # autocmd BufWritePost <buffer> {
 

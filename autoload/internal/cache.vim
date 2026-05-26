@@ -8,29 +8,32 @@ vim9script
 
 var is_cache_initialized = false
 
-export def CreateBacklinksIndex()
+export def CreateBacklinksCache()
     if is_cache_initialized | return | endif
     is_cache_initialized = true
-    var [ existing_notes, note_links, unresolved_links ] = SetupBacklinksIndex()
-    var index = {
+    echom 'Caching your notes...'
+
+    var [ existing_notes, note_links, unresolved_links ] = SetupBacklinksCache()
+    var cache = {
         note_links: note_links,
         unresolved_links: unresolved_links
     }
 
-    var index_path = g:obsidian_index
-    if !filereadable(index_path)
-        var dir = fnamemodify(index_path, ':h')
+    var catch_path = g:obsidian_cache
+    if !filereadable(catch_path)
+        var dir = fnamemodify(catch_path, ':h')
         if !isdirectory(dir)
             mkdir(dir, 'p')
         endif
     endif
 
-    writefile([json_encode(index)], index_path)
+    writefile([json_encode(cache)], catch_path)
 
+    echom 'Cache created!'
     return
 enddef
 
-export def SetupBacklinksIndex(): list<dict<any>>
+export def SetupBacklinksCache(): list<dict<any>>
     var existing_notes: dict<number> =  {}
     var unresolved_links = {}
 
@@ -95,13 +98,13 @@ def GetAllNotes(path: string): list<string>
         ->mapnew((_, file) => fnamemodify(file, ':t:r'))
 enddef
 
-export def LoadBacklinksIndex(): dict<any>
-    var index_path = g:obsidian_index
+export def LoadBacklinksCache(): dict<any>
+    var catch_path = g:obsidian_cache
 
-    if !filereadable(index_path) | return {} | endif
+    if !filereadable(catch_path) | return {} | endif
 
     try
-        var content = readfile(index_path)
+        var content = readfile(catch_path)
         if empty(content) | return {} | endif
         return json_decode(content[0])
     catch
@@ -109,7 +112,10 @@ export def LoadBacklinksIndex(): dict<any>
     endtry
 enddef
 
-export def UpdateBacklinksIndex()
+export def UpdateBacklinksCache()
+    # This happens after writing to the file
+    # 1. Check if current was nonexistent and considered an unresolved link
+    # 2. Scan all wikilinks in the file
     return
 enddef
 

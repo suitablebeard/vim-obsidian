@@ -16,6 +16,7 @@ import autoload '../autoload/obsidian.vim'
 g:obsidian_vault_dir = utils.NormalizePath(get(g:, 'obsidian_vault_dir', '.'))
 g:obsidian_newfile_dir = utils.NormalizePath(get(g:, 'obsidian_newfile_dir', g:obsidian_vault_dir .. '/new_notes'))
 g:obsidian_mappings = get(g:, 'obsidian_mappings', {})
+g:obsidian_index = utils.NormalizePath(g:obsidian_vault_dir .. '/.vimobsidian_index.json')
 
 # Commands available for all filetypes
 command! -nargs=1 ObsidianNewNote obsidian#CreateNewNote('<args>')

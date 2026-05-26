@@ -13,7 +13,7 @@ export def CreateBacklinksIndex()
         unresolved_links: unresolved_links
     }
 
-    var index_path = g:obsidian_vault_dir .. '/.vimobsidian_index.json'
+    var index_path = g:obsidian_index 
     if !filereadable(index_path)
         var dir = fnamemodify(index_path, ':h')
         if !isdirectory(dir)
@@ -92,7 +92,7 @@ export def GetAllBacklinksRg(path: string): list<dict<any>>
 enddef
 
 export def LoadBacklinksIndex(): dict<any>
-    var index_path = g:obsidian_vault_dir .. '/.vimobsidian_index.json'
+    var index_path = g:obsidian_index 
 
     if !filereadable(index_path) | return {} | endif
 

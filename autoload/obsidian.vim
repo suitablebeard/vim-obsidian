@@ -9,6 +9,10 @@ export def Setup()
     mappings.SetupMappings()
 enddef
 
+export def LoadIndex()
+    indexer.CreateBacklinksIndex() 
+enddef
+
 export def ObsidianAutocompleter()
     var line_text = getline('.')
     var cursor_col = col('.') - 1

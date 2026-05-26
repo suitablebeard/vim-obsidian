@@ -10,7 +10,6 @@ endif
 b:did_ftplugin_obsidian = 1
 
 import autoload '../autoload/obsidian.vim'
-import autoload '../autoload/internal/indexer.vim'
 
 # Commands available only in markdown files
 command! -nargs=0 -buffer ObsidianFollowWikilink obsidian#FollowWikilink()
@@ -20,6 +19,11 @@ command! -nargs=0 -buffer ObsidianRenameNote obsidian#RenameNote()
 
 augroup ObsidianWikilinkFtpluginSetup
     autocmd!
-    autocmd VimEnter,BufEnter <buffer> indexer.CreateBacklinksIndex()
+    autocmd VimEnter,BufEnter <buffer> obsidian#LoadIndex()
+
+    # autocmd BufWritePost <buffer> {
+
+    # }
+
     autocmd TextChangedI *.md obsidian#ObsidianAutocompleter()
 augroup END

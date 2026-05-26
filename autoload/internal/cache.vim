@@ -8,32 +8,38 @@ vim9script
 
 var is_cache_initialized = false
 
-export def CreateBacklinksCache()
+export def CreateCache()
     if is_cache_initialized | return | endif
     is_cache_initialized = true
+
     echom 'Caching your notes...'
 
-    var [ existing_notes, note_links, unresolved_links ] = SetupBacklinksCache()
+    CacheBacklinks()
+
+    echom 'Cache created!'
+enddef
+
+export def CacheBacklinks()
+    var [ existing_notes, note_links, unresolved_links ] = ScanVaultBacklinks()
     var cache = {
         note_links: note_links,
         unresolved_links: unresolved_links
     }
 
-    var catch_path = g:obsidian_cache
-    if !filereadable(catch_path)
-        var dir = fnamemodify(catch_path, ':h')
+    var cache_path = g:obsidian_cache
+    if !filereadable(cache_path)
+        var dir = fnamemodify(cache_path, ':h')
         if !isdirectory(dir)
             mkdir(dir, 'p')
         endif
     endif
 
-    writefile([json_encode(cache)], catch_path)
+    writefile([json_encode(cache)], cache_path)
 
-    echom 'Cache created!'
     return
 enddef
 
-export def SetupBacklinksCache(): list<dict<any>>
+export def ScanVaultBacklinks(): list<dict<any>>
     var existing_notes: dict<number> =  {}
     var unresolved_links = {}
 
@@ -98,21 +104,24 @@ def GetAllNotes(path: string): list<string>
         ->mapnew((_, file) => fnamemodify(file, ':t:r'))
 enddef
 
-export def LoadBacklinksCache(): dict<any>
-    var catch_path = g:obsidian_cache
+export def GetCache(): dict<any>
+    var cache_path = g:obsidian_cache
 
-    if !filereadable(catch_path) | return {} | endif
+    if !filereadable(cache_path) | return {} | endif
 
     try
-        var content = readfile(catch_path)
+        var content = readfile(cache_path)
         if empty(content) | return {} | endif
-        return json_decode(content[0])
+
+        var backlinks_data = json_decode(content[0])
+
+        return json_decode(backlinks_data)
     catch
         return {}
     endtry
 enddef
 
-export def UpdateBacklinksCache()
+export def UpdateCache()
     # This happens after writing to the file
     # 1. Check if current was nonexistent and considered an unresolved link
     # 2. Scan all wikilinks in the file

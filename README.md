@@ -86,17 +86,16 @@ highlight WikiLinkText ctermfg=DarkCyan guifg=#008787
 highlight Tag cterm=bold ctermfg=Magenta gui=bold guifg=#ff00ff
 ```
 
+## Requirements
+
+- Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);
+- [ripgrep](https://github.com/burntsushi/ripgrep)
+
 ## Suggested Plugins
 
 We recomend using alongside this plugin:
 - [auto-pairs](https://github.com/LunarWatcher/auto-pairs); and
 - any fuzzy finder plugin.
-
-## Requirements
-
-- Vim >= 9.0 (plugin is written in vim9script, Vim 9+ required, Neovim not supported);
-- [ripgrep](https://github.com/burntsushi/ripgrep)
-    - you can discard using ripgrep if you don't want to use `:ObsidianRenameNote` since we use Vim's built-in `find` for everything else.
 
 ## Installation
 

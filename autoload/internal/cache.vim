@@ -120,15 +120,15 @@ export def CacheBacklinks()
 enddef
 
 export def ScanVaultBacklinks(): list<dict<any>>
-    var existing_notes: dict<number> =  {}
-    var unresolved_links = {}
+    var existing_notes: dict<bool> =  {}
+    var unresolved_links: dict<number> = {}
 
     var [ all_links, note_links ] = GetAllBacklinksRg(g:obsidian_vault_dir)
 
     var notes = GetAllNotes(g:obsidian_vault_dir)
     for note in notes
         var filename = fnamemodify(note, ':r')
-        existing_notes[filename] = 1
+        existing_notes[filename] = true
     endfor
 
     for link in keys(all_links)

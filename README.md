@@ -39,11 +39,12 @@ To change these mappings, see next section.
 
 You can change the following options as you see fit and add them to your `.vimrc`.
 
-| Option                    | Description                                       | Default Value                                 |
-| :------------------------ | :---------------------------------------          | :-------------------------------------------- |
-| `g:obsidian_vault_dir`    | directory for your vault (full path)              | the current directory (see :pwd)              |
-| `g:obsidian_newfile_dir`  | directory where new notes are created (full path) | `g:obsidian_vault_dir`/new_notes              |
-| `g:obsidian_mappings`     | dictionary with mappings used                     | (see bellow)                                  |
+| Option                    | Description                                       | Default Value                                  |
+| :------------------------ | :---------------------------------------          | :--------------------------------------------  |
+| `g:obsidian_vault_dir`    | directory for your vault (full path)              | the current directory (see :pwd)               |
+| `g:obsidian_newfile_dir`  | directory where new notes are created (full path) | `g:obsidian_vault_dir`/new_notes               |
+| `g:obsidian_mappings`     | dictionary with mappings used                     | (see bellow)                                   |
+| `g:obsidian_cache`        | file for caching data                             | `g:obsidian_vault_dir`/.vimobsidian_cache.json |
 
 These are the options for `g:obsidian_mappings` with their default value:
 

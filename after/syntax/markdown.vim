@@ -19,3 +19,4 @@ highlight default link WikiLinkClose Comment
 highlight default link WikiLinkText Statement
 highlight default link Tag Identifier
 
+highlight default link PmenuMatch Statement

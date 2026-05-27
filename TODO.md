@@ -2,11 +2,7 @@
 
 1. Create documentation and help tags
 2. Take a look at Ale and CoC for handling autocompletion
-3. Serve unresolved links to wikilink autocompletion
-    - [x] make it cache the unresolved links when VimEnter
-    - [ ] make it check for unresolved links after BufWritePost but only for the current file
-        - [ ] this should also check the current note itself since it might be a note once considered nonexistent
-    - [ ] make it asynchronous
+3. Make caching asynchronous
 4. Add ignored directories
 5. Find good color to PmenuMatch (color of the matched text in autocomplete)
 6. Make updating backlinks async
@@ -33,3 +29,4 @@
         - [fuzzbox](https://github.com/vim-fuzzbox/fuzzbox.vim);
         - [minifuzzy](https://github.com/chrispane11/minifuzzy.vim);
         - [vim-haystack](https://github.com/tpope/vim-haystack)
+    - In relation to fuzzy searching: `See :h cmdline-autocompletion, :h fuzzy-file-picker, and :h live-grep`

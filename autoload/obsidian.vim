@@ -188,15 +188,22 @@ export def CreateNewNote(filename: string): void
 enddef
 
 export def ViewBacklinks()
-    var path: string = expand('%:p')
-    var filename = fnamemodify(path, ':t:r')
+    var file_path: string = expand('%:p')
+    var filename = fnamemodify(file_path, ':t:r')
 
     if !executable('rg')
-        backlinks.BacklinksVimgrep(path)
+        backlinks.BacklinksVimgrep(file_path)
         return
     endif
 
-    var files: list<any> = backlinks.BacklinksRg(path)
+    var files: list<any> = backlinks.BacklinksRg(
+        'specific_note',
+        g:obsidian_vault_dir,
+        file_path
+    )
+
+    var parsed_data = files->mapnew((_, backlink_data) => backlink_data[0])
+
     if empty(files)
         echo 'No backlinks for: ' .. filename
         return
@@ -204,7 +211,7 @@ export def ViewBacklinks()
 
     setqflist([], 'r', {
         title: 'Backlinks: ' .. filename,
-        lines: files,
+        lines: parsed_data,
         efm: '%f:%l:%c:%m'
     })
 

@@ -6,32 +6,85 @@
 
 vim9script
 
-export def BacklinksRg(path: string): list<any>
-    if empty(path)
-        echoerr 'Vim-Obsidian: no note selected'
-        return []
-    endif
+export def BacklinksRg(
+    mode: string,
+    search_path: string,
+    file_path: string,
+    opts = { only_matched: false  }
+): list<list<string>>
+    var mode_pattern = {
+        generic: '[^\]|#]+',
+        specific_note: GetFilenameRegexPattern(file_path)
+    }
 
-    var filename = fnamemodify(path, ':t:r')
-    var escaped = escape(filename, '\.^$~[]')
-
-    var pattern = '\[\[' .. escaped
+    var pattern = '(?<=\[\[)' .. mode_pattern[mode]
         .. '(#[^\]|]*)?'
         .. '(\|[^\]]*)?'
-        .. '\]\]'
+        .. '(?=\]\])'
 
     var cmd = [
         'rg',
         '--vimgrep',
         '--glob',
         '*.md',
+        '--pcre2',
         pattern,
-        g:obsidian_vault_dir
+        search_path 
     ]
 
-    var result = systemlist(cmd)
+    if opts.only_matched
+        add(cmd, '-o')
+    endif
 
-    if v:shell_error != 0 || empty(result) | return [] | endif
+    var output = systemlist(cmd)
+
+    if v:shell_error != 0 || empty(output) | echom 'error' |  return [] | endif
+
+    return ProcessOutputRg(output)
+enddef
+
+def GetFilenameRegexPattern(path: string): string
+    var filename = fnamemodify(path, ':t:r')
+    var escaped = escape(filename, '\.^$~[]')
+
+    return escaped
+enddef
+
+def ProcessOutputRg(output: list<string>): list<list<string>>
+    var result = output->mapnew((_, line) => {
+        var p = '\([^:]*\)'
+            .. ':\(\d\+\)'
+            .. ':\(\d\+\)'
+            .. ':\(.\{-}'
+            .. '\[\['
+            .. '\([^#|\]]*\)'
+            .. '\(#[^|\]]*\)\='
+            .. '\(|[^\]]*\)\='
+            .. '\]\]'
+            .. '.\{-}\)'
+
+        var parsed_line = line->matchlist(p)
+
+        var whole_line = parsed_line[0]
+        var filename = fnamemodify(parsed_line[1], ':t:r')
+        var line_num = parsed_line[2]
+        var column_num = parsed_line[3]
+        var result_line = parsed_line[4]
+        var link = parsed_line[5]
+        var header_link = parsed_line[6]->substitute('^#', '', '')
+        var alias = parsed_line[7]->substitute('^|', '', '')
+       
+        return [
+            whole_line,
+            filename,
+            line_num,
+            column_num,
+            result_line,
+            link,
+            header_link,
+            alias
+        ]
+    })
 
     return result
 enddef

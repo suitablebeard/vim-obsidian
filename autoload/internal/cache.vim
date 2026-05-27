@@ -73,7 +73,7 @@ export def GetAllBacklinksRg(path: string): list<dict<any>>
         '--glob',
         '*.md',
         '--pcre2',
-        '(?<=\[\[)[^\]|#]+',
+        '(?<=\[\[)[^\]|#]+(?=[^\]]*\]\])',
         path
     ]
 

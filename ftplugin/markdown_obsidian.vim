@@ -4,6 +4,12 @@ endif
 
 vim9script
 
+var current_file_path = expand('%:p')
+var parsed_vault_path = escape(g:obsidian_vault_dir, '\^$.*~[]')
+if current_file_path !~# $'^{parsed_vault_path}' 
+    finish
+endif
+
 if exists('b:did_ftplugin_obsidian')
     finish
 endif

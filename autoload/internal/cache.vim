@@ -6,6 +6,8 @@
 
 vim9script
 
+import autoload 'internal/backlinks.vim'
+
 var is_cache_initialized = false
 
 export def CreateCache()
@@ -17,15 +19,11 @@ export def CreateCache()
     CacheBacklinks()
 
     echom 'Cache created!'
+
+    return
 enddef
 
-export def CacheBacklinks()
-    var [ existing_notes, note_links, unresolved_links ] = ScanVaultBacklinks()
-    var cache = {
-        note_links: note_links,
-        unresolved_links: unresolved_links
-    }
-
+def SaveCacheFile(cache: dict<any>)
     var cache_path = g:obsidian_cache
     if !filereadable(cache_path)
         var dir = fnamemodify(cache_path, ':h')
@@ -35,6 +33,88 @@ export def CacheBacklinks()
     endif
 
     writefile([json_encode(cache)], cache_path)
+enddef
+
+export def GetCache(): dict<any>
+    var cache_path = g:obsidian_cache
+
+    if !filereadable(cache_path) | return {} | endif
+
+    try
+        var content = readfile(cache_path)
+        if empty(content) | return {} | endif
+
+        var backlinks_data = json_decode(content[0])
+
+        return backlinks_data
+    catch
+        return {}
+    endtry
+enddef
+
+export def UpdateCache()
+    var cache = GetCache()
+    var current_note_path = expand('%:p')
+    var current_note = expand('%:t:r')
+
+    if !has_key(cache['existing_notes'], current_note)
+        cache['existing_notes'][current_note] = true
+
+        if has_key(cache['unresolved_links'], current_note)
+            remove(cache['unresolved_links'], current_note)
+        endif
+    endif
+
+    var cur_links_data = backlinks.BacklinksRg('generic', current_note_path, '')
+    var current_links = cur_links_data->mapnew((_, data) => data[5])->uniq()
+
+    var cached_links = cache['note_links'][current_note]
+
+    var [ removed_links, added_links ] = CompareCachedAndLocalLinks(
+        current_links, cached_links
+    )
+
+    if empty(removed_links) && empty(added_links)
+        return
+    endif
+
+    for link in added_links
+        if has_key(cache['existing_notes'], link)
+            continue
+        endif
+
+        var link_added = has_key(cache['unresolved_links'], link)
+        cache['unresolved_links'][link] = (link_added)
+            ? cache['unresolved_links'][link] + 1
+            : 1
+    endfor
+
+    for link in removed_links
+        if has_key(cache['unresolved_links'], link)
+            cache['unresolved_links'][link] -= 1
+
+            if cache['unresolved_links'][link] == 0
+                remove(cache['unresolved_links'], link)
+            endif
+        endif
+    endfor
+
+    cache['note_links'][current_note] = current_links
+
+    SaveCacheFile(cache)
+
+    return
+enddef
+
+export def CacheBacklinks()
+    var [ existing_notes, note_links, unresolved_links ] = ScanVaultBacklinks()
+    var cache = {
+        existing_notes: existing_notes,
+        note_links: note_links,
+        unresolved_links: unresolved_links
+    }
+
+    SaveCacheFile(cache)
 
     return
 enddef
@@ -104,28 +184,36 @@ def GetAllNotes(path: string): list<string>
         ->mapnew((_, file) => fnamemodify(file, ':t:r'))
 enddef
 
-export def GetCache(): dict<any>
-    var cache_path = g:obsidian_cache
 
-    if !filereadable(cache_path) | return {} | endif
+def CompareCachedAndLocalLinks(
+    current_links: list<string>,
+    cached_links: list<string>
+): any
+    var current_dict = {}
+    for link in current_links
+        current_dict[link] = true
+    endfor
 
-    try
-        var content = readfile(cache_path)
-        if empty(content) | return {} | endif
+    var cached_dict = {}
+    for link in cached_links
+        cached_dict[link] = true
+    endfor
 
-        var backlinks_data = json_decode(content[0])
+    var removed_links = []
+    for link in cached_links
+        if !has_key(current_dict, link)
+            add(removed_links, link)
+        endif
+    endfor
 
-        return json_decode(backlinks_data)
-    catch
-        return {}
-    endtry
-enddef
+    var added_links = []
+    for link in current_links
+        if !has_key(cached_dict, link)
+            add(added_links, link)
+        endif
+    endfor
 
-export def UpdateCache()
-    # This happens after writing to the file
-    # 1. Check if current was nonexistent and considered an unresolved link
-    # 2. Scan all wikilinks in the file
-    return
+    return [ removed_links, added_links ]
 enddef
 
 defcompile

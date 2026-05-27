@@ -20,10 +20,6 @@ command! -nargs=0 -buffer ObsidianRenameNote obsidian#RenameNote()
 augroup ObsidianWikilinkFtpluginSetup
     autocmd!
     autocmd VimEnter,BufEnter <buffer> obsidian#LoadCache()
-
-    # autocmd BufWritePost <buffer> {
-
-    # }
-
-    autocmd TextChangedI *.md obsidian#ObsidianAutocompleter()
+    autocmd BufWritePost <buffer> obsidian#UpdateCache()
+    autocmd TextChangedI <buffer> obsidian#ObsidianAutocompleter()
 augroup END

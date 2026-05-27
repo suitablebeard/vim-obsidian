@@ -10,7 +10,11 @@ export def Setup()
 enddef
 
 export def LoadCache()
-    cache.CreateCache() 
+    cache.CreateCache()
+enddef
+
+export def UpdateCache()
+    cache.UpdateCache()
 enddef
 
 export def ObsidianAutocompleter()

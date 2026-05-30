@@ -6,6 +6,7 @@
 4. Add ignored directories
 5. Find good color to PmenuMatch (color of the matched text in autocomplete)
 6. Make updating backlinks async
+7. Conceal markup (e.g. stars for bold, hashes for title, url for links, note name and header link if there's an alias)
 
 # After
 

@@ -38,7 +38,7 @@ export def BacklinksRg(
 
     var output = systemlist(cmd)
 
-    if v:shell_error != 0 || empty(output) | echom 'error' |  return [] | endif
+    if v:shell_error != 0 || empty(output) |  return [] | endif
 
     return ProcessOutputRg(output)
 enddef

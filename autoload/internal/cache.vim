@@ -74,32 +74,31 @@ export def UpdateCache()
         current_links, cached_links
     )
 
-    if empty(removed_links) && empty(added_links)
-        return
+    if !empty(removed_links) || !empty(added_links)
+        for link in added_links
+            if has_key(cache['existing_notes'], link)
+                continue
+            endif
+
+            var link_added = has_key(cache['unresolved_links'], link)
+            cache['unresolved_links'][link] = (link_added)
+                ? cache['unresolved_links'][link] + 1
+                : 1
+        endfor
+
+        for link in removed_links
+            if has_key(cache['unresolved_links'], link)
+                cache['unresolved_links'][link] -= 1
+
+                if cache['unresolved_links'][link] == 0
+                    remove(cache['unresolved_links'], link)
+                endif
+            endif
+        endfor
+
+        cache['note_links'][current_note] = current_links
     endif
 
-    for link in added_links
-        if has_key(cache['existing_notes'], link)
-            continue
-        endif
-
-        var link_added = has_key(cache['unresolved_links'], link)
-        cache['unresolved_links'][link] = (link_added)
-            ? cache['unresolved_links'][link] + 1
-            : 1
-    endfor
-
-    for link in removed_links
-        if has_key(cache['unresolved_links'], link)
-            cache['unresolved_links'][link] -= 1
-
-            if cache['unresolved_links'][link] == 0
-                remove(cache['unresolved_links'], link)
-            endif
-        endif
-    endfor
-
-    cache['note_links'][current_note] = current_links
 
     SaveCacheFile(cache)
 

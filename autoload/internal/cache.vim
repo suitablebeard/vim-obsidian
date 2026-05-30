@@ -68,7 +68,7 @@ export def UpdateCache()
     var cur_links_data = backlinks.BacklinksRg('generic', current_note_path, '')
     var current_links = cur_links_data->mapnew((_, data) => data[5])->uniq()
 
-    var cached_links = cache['note_links'][current_note]
+    var cached_links = cache['note_links']->get(current_note, [])
 
     var [ removed_links, added_links ] = CompareCachedAndLocalLinks(
         current_links, cached_links

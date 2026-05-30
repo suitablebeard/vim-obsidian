@@ -108,3 +108,11 @@ Install using your favorite package manager, or use Vim's built-in package suppo
 ## License
 
 MPL 2.0
+
+## TODO
+
+- [ ] Make caching asynchronous
+- [ ] Ignore specified directories in the vault
+- [ ] Add support for tags
+- [ ] Conceal markup
+- [ ] Create documentation and help tags

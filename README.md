@@ -25,13 +25,13 @@ set pumheight=10                       " sets maximum height for autocomplete po
 
 ## Commands
 
-| Command                         | Description                                                                                                                 | Default Mapping |
-|:--------------------------------|:----------------------------------------------------------------------------------------------------------------------------|:---------------:|
-| `:ObsidianFollowWikilink`       | - follows the wikilink under the cursor<br>- following an "unresolved links" creates a new note in `g:obsidian_newfile_dir` |        gd       |
-| `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]                                                                        |   \<leader\>os  |
-| `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir`                                                                    |   \<leader\>on  |
-| `:ObsidianBacklinks`            | shows all backlinks for the current note                                                                                    |   \<leader\>ob  |
-| `:ObsidianRenameNote`           | renames the current note and updates all backlinks                                                                          |   \<leader\>or  |
+| Command                         | Description                                              | Default Mapping |
+|:--------------------------------|:---------------------------------------------------------|:---------------:|
+| `:ObsidianFollowWikilink`       | follows the wikilink under the cursor                    |        gd       |
+| `:ObsidianSurroundWithBrackets` | surrounds the selected text with [[double brackets]]     |   \<leader\>os  |
+| `:ObsidianNewNote {str}`        | creates note named {str} in the `g:obsidian_newfile_dir` |   \<leader\>on  |
+| `:ObsidianBacklinks`            | shows all backlinks for the current note                 |   \<leader\>ob  |
+| `:ObsidianRenameNote`           | renames the current note and updates all backlinks       |   \<leader\>or  |
 
 To change these mappings, see next section.
 
@@ -44,18 +44,18 @@ You can change the following options as you see fit and add them to your `.vimrc
 | `g:obsidian_vault_dir`    | directory for your vault (full path)              | the current directory (see :pwd)               |
 | `g:obsidian_newfile_dir`  | directory where new notes are created (full path) | `g:obsidian_vault_dir`/new_notes               |
 | `g:obsidian_mappings`     | dictionary with mappings used                     | (see bellow)                                   |
-| `g:obsidian_cache`        | file for caching data                             | `g:obsidian_vault_dir`/.vimobsidian_cache.json |
+| `g:obsidian_cache`        | file for caching data (full path)                 | `g:obsidian_vault_dir`/.vimobsidian_cache.json |
 
 These are the options for `g:obsidian_mappings` with their default value:
 
 ```vimscript
 let g:obsidian_mappings = {
-    follow_wikilink:     'gd',
-    surround_brackets:   '<leader>os',
-    new_note:            '<leader>on',
-    view_backlinks:      '<leader>ob',
-    rename_note:         '<leader>or',
-}
+\   follow_wikilink:     'gd',
+\   surround_brackets:   '<leader>os',
+\   new_note:            '<leader>on',
+\   view_backlinks:      '<leader>ob',
+\   rename_note:         '<leader>or',
+\ }
 ```
 
 ## Customization

@@ -113,6 +113,8 @@ MPL 2.0
 
 - [ ] Make caching asynchronous
 - [ ] Ignore specified directories in the vault
+- [ ] Templates
+- [ ] Daily notes
 - [ ] Add support for tags
 - [ ] Conceal markup
 - [ ] Create documentation and help tags
